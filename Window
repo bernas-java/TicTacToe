@@ -1,0 +1,253 @@
+package com.main;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Window extends JFrame implements ActionListener {
+
+    // Definiowanie przycisków
+    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,bRestart;
+    JLabel LWin;
+    boolean Xturn = true;
+
+    String[][] CorX = { {"","",""}, {"","",""}, {"","",""} };
+    //    [ ] [ ] [ ]
+    //    [ ] [ ] [ ]
+    //    [ ] [ ] [ ]
+
+    public Window() {
+
+        // Ustawienia okna
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(600,625);
+        setTitle("TicTacToe v1.0");
+        setVisible(true);
+        setResizable(false);
+        setLayout(null);
+
+        // Tworzenie przycisków
+        b1 = new JButton("");
+        b2 = new JButton("");
+        b3 = new JButton("");
+        b4 = new JButton("");
+        b5 = new JButton("");
+        b6 = new JButton("");
+        b7 = new JButton("");
+        b8 = new JButton("");
+        b9 = new JButton("");
+        LWin = new JLabel("");
+        bRestart = new JButton("Restart");
+
+        // Pozycja przycisków
+        b1.setBounds(0,0,200,200);
+        b2.setBounds(200,0,200,200);
+        b3.setBounds(400,0,200,200);
+        b4.setBounds(0,200,200,200);
+        b5.setBounds(200,200,200,200);
+        b6.setBounds(400,200,200,200);
+        b7.setBounds(0,400,200,200);
+        b8.setBounds(200,400,200,200);
+        b9.setBounds(400,400,200,200);
+        LWin.setBounds(getWidth()/2-210,50,500,200);
+        bRestart.setBounds(getWidth()/2-100,250,200,100);
+
+        // Czcionka w przyciskach
+        b1.setFont(new Font("Verdana",Font.BOLD,100));
+        b2.setFont(new Font("Verdana",Font.BOLD,100));
+        b3.setFont(new Font("Verdana",Font.BOLD,100));
+        b4.setFont(new Font("Verdana",Font.BOLD,100));
+        b5.setFont(new Font("Verdana",Font.BOLD,100));
+        b6.setFont(new Font("Verdana",Font.BOLD,100));
+        b7.setFont(new Font("Verdana",Font.BOLD,100));
+        b8.setFont(new Font("Verdana",Font.BOLD,100));
+        b9.setFont(new Font("Verdana",Font.BOLD,100));
+        LWin.setFont(new Font("Verdana",Font.BOLD,40));
+        bRestart.setFont(new Font("Verdana",Font.BOLD,20));
+
+        // Podpięcie przycisków do zdarzeń
+
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this);
+        b4.addActionListener(this);
+        b5.addActionListener(this);
+        b6.addActionListener(this);
+        b7.addActionListener(this);
+        b8.addActionListener(this);
+        b9.addActionListener(this);
+        bRestart.addActionListener(this);
+
+        // Dodanie przycisków do okna
+        add(b1);
+        add(b2);
+        add(b3);
+        add(b4);
+        add(b5);
+        add(b6);
+        add(b7);
+        add(b8);
+        add(b9);
+        add(LWin);
+        add(bRestart);
+
+        // ukrycie menu restartu gry
+        bRestart.setVisible(false);
+        LWin.setVisible(false);
+
+    }
+
+    // Działanie przycisków
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        // Obiekt, który pobiera nazwę przycisku
+        Object source = e.getSource();
+        // Rozróżnienie przycisków
+        KeyPressed(source);
+
+    }
+
+
+    private void KeyPressed(Object source) {
+        String mark = "";
+
+        // Rozróżnienie przycisków
+        if (source == b1) {
+            mark = InsertCol(0,0);
+            b1.setText(mark);
+        }
+        if (source == b2) {
+            mark = InsertCol(0,1);
+            b2.setText(mark);
+        }
+        if (source == b3) {
+            mark = InsertCol(0,2);
+            b3.setText(mark);
+        }
+        if (source == b4) {
+            mark = InsertCol(1,0);
+            b4.setText(mark);
+        }
+        if (source == b5) {
+            mark = InsertCol(1,1);
+            b5.setText(mark);
+        }
+        if (source == b6) {
+            mark = InsertCol(1,2);
+            b6.setText(mark);
+        }
+        if (source == b7) {
+            mark = InsertCol(2,0);
+            b7.setText(mark);
+        }
+        if (source == b8) {
+            mark = InsertCol(2,1);
+            b8.setText(mark);
+        }
+        if (source == b9) {
+            mark = InsertCol(2,2);
+            b9.setText(mark);
+        }
+        if (source == bRestart) {
+            Restart();
+        }
+
+        CheckIfWin(mark);
+
+    }
+
+    private String InsertCol(int tr, int td) {
+        String mark;
+        if (CorX[tr][td].equals("")) {
+            if (Xturn) {
+                mark = "X";
+                CorX[tr][td] = mark;
+                Xturn = false;
+            } else {
+                mark = "O";
+                CorX[tr][td] = mark;
+                Xturn = true;
+            }
+        }
+        else {
+            mark = CorX[tr][td];
+        }
+        return mark;
+
+    }
+
+    private void CheckIfWin(String mark) {
+        for(int i=0;i<3;i++) {
+            if (!CorX[i][0].equals("") && !CorX[i][1].equals("") && !CorX[i][2].equals("")) {
+                if (CorX[i][0].equals(CorX[i][1]) && CorX[i][0].equals(CorX[i][2])) {
+                    Wins(mark);
+                }
+            }
+            if (!CorX[0][i].equals("") && !CorX[1][i].equals("") && !CorX[2][i].equals("")) {
+                if (CorX[0][i].equals(CorX[1][i]) && CorX[0][i].equals(CorX[2][i])) {
+                    Wins(mark);
+                }
+            }
+            if (i<2 && !CorX[0][2*i].equals("") && !CorX[1][1].equals("") && !CorX[2][2-2*i].equals("")) {
+                if (CorX[0][2*i].equals(CorX[1][1]) && CorX[1][1].equals(CorX[2][2-2*i])) {
+                    Wins(mark);
+                }
+            }
+        }
+    }
+
+    private void Wins(String player) {
+
+        b1.setVisible(false);
+        b2.setVisible(false);
+        b3.setVisible(false);
+        b4.setVisible(false);
+        b5.setVisible(false);
+        b6.setVisible(false);
+        b7.setVisible(false);
+        b8.setVisible(false);
+        b9.setVisible(false);
+        LWin.setVisible(true);
+        bRestart.setVisible(true);
+        LWin.setText("Wygrywa gracz "+player);
+
+    }
+
+    public void Restart() {
+
+        // Czyszczenie zmiennych, oraz ukrywanie/pokazywanie GUI
+        for(int n=0;n<3;n++) {
+            for(int i=0;i<3;i++) {
+                CorX[n][i] = "";
+            }
+        }
+        //    [ ] [ ] [ ]
+        //    [ ] [ ] [ ]
+        //    [ ] [ ] [ ]
+        b1.setText("");
+        b2.setText("");
+        b3.setText("");
+        b4.setText("");
+        b5.setText("");
+        b6.setText("");
+        b7.setText("");
+        b8.setText("");
+        b9.setText("");
+
+        b1.setVisible(true);
+        b2.setVisible(true);
+        b3.setVisible(true);
+        b4.setVisible(true);
+        b5.setVisible(true);
+        b6.setVisible(true);
+        b7.setVisible(true);
+        b8.setVisible(true);
+        b9.setVisible(true);
+        LWin.setVisible(false);
+        bRestart.setVisible(false);
+
+    }
+
+}

@@ -9,7 +9,7 @@ public class Window extends JFrame implements ActionListener {
 
     // Definiowanie przycisków
     JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,bRestart;
-    JLabel LWin;
+    JLabel LWin,LTurn;
 
     // Definiowanie zmiennych
     int EmptySpaces;
@@ -27,7 +27,7 @@ public class Window extends JFrame implements ActionListener {
 
         // Ustawienia okna
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600,625);
+        setSize(600,676);
         setTitle("TicTacToe v1.0");
         setVisible(true);
         setResizable(false);
@@ -43,8 +43,9 @@ public class Window extends JFrame implements ActionListener {
         b7 = new JButton("");
         b8 = new JButton("");
         b9 = new JButton("");
-        LWin = new JLabel("");
         bRestart = new JButton("Restart");
+        LWin = new JLabel("");
+        LTurn = new JLabel("Gracz X");
 
         // Pozycja przycisków
         b1.setBounds(0,0,200,200);
@@ -56,7 +57,9 @@ public class Window extends JFrame implements ActionListener {
         b7.setBounds(0,400,200,200);
         b8.setBounds(200,400,200,200);
         b9.setBounds(400,400,200,200);
-        bRestart.setBounds(getWidth()/2-100,250,200,100);
+        bRestart.setBounds(400,600,199,48);
+        LWin.setBounds(0,600,400,50);
+        LTurn.setBounds(255,597,200,50);
 
         // Czcionka w przyciskach
         b1.setFont(new Font("Verdana",Font.BOLD,100));
@@ -68,8 +71,10 @@ public class Window extends JFrame implements ActionListener {
         b7.setFont(new Font("Verdana",Font.BOLD,100));
         b8.setFont(new Font("Verdana",Font.BOLD,100));
         b9.setFont(new Font("Verdana",Font.BOLD,100));
-        LWin.setFont(new Font("Verdana",Font.BOLD,40));
         bRestart.setFont(new Font("Verdana",Font.BOLD,20));
+        LWin.setFont(new Font("Verdana",Font.BOLD,19));
+        LTurn.setFont(new Font("Verdana",Font.BOLD,19));
+        LTurn.setForeground(Color.red);
 
         // Podpięcie przycisków do zdarzeń
 
@@ -95,11 +100,8 @@ public class Window extends JFrame implements ActionListener {
         add(b8);
         add(b9);
         add(LWin);
+        add(LTurn);
         add(bRestart);
-
-        // ukrycie menu restartu gry
-        bRestart.setVisible(false);
-        LWin.setVisible(false);
 
     }
 
@@ -183,10 +185,12 @@ public class Window extends JFrame implements ActionListener {
                 mark = "X";
                 CorX[tr][td] = mark;
                 Xturn = false;
+                LTurn.setText("Gracz Y");
             } else {
                 mark = "O";
                 CorX[tr][td] = mark;
                 Xturn = true;
+                LTurn.setText("Gracz X");
             }
         }
         else {
@@ -218,25 +222,12 @@ public class Window extends JFrame implements ActionListener {
 
     private void Wins(String player) {
 
-        b1.setVisible(false);
-        b2.setVisible(false);
-        b3.setVisible(false);
-        b4.setVisible(false);
-        b5.setVisible(false);
-        b6.setVisible(false);
-        b7.setVisible(false);
-        b8.setVisible(false);
-        b9.setVisible(false);
-        LWin.setVisible(true);
-        bRestart.setVisible(true);
         SmbdWon = true;
         if (!player.equals("")) {
             LWin.setText("Wygrywa gracz " + player+"!");
-            LWin.setBounds(getWidth()/2-210,50,500,200);
         }
         else {
             LWin.setText("Remis!");
-            LWin.setBounds(getWidth()/2-100,50,200,200);
         }
 
     }
@@ -261,18 +252,9 @@ public class Window extends JFrame implements ActionListener {
         b7.setText("");
         b8.setText("");
         b9.setText("");
+        LWin.setText("");
+        LTurn.setText("Gracz X");
 
-        b1.setVisible(true);
-        b2.setVisible(true);
-        b3.setVisible(true);
-        b4.setVisible(true);
-        b5.setVisible(true);
-        b6.setVisible(true);
-        b7.setVisible(true);
-        b8.setVisible(true);
-        b9.setVisible(true);
-        LWin.setVisible(false);
-        bRestart.setVisible(false);
         FirstTurn = true;
         SmbdWon = false;
 

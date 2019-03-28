@@ -28,7 +28,7 @@ public class Window extends JFrame implements ActionListener {
         // Ustawienia okna
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600,676);
-        setTitle("TicTacToe v1.0");
+        setTitle("TicTacToe v1.5");
         setVisible(true);
         setResizable(false);
         setLayout(null);
@@ -234,6 +234,7 @@ public class Window extends JFrame implements ActionListener {
         else {
             LWin.setText("Remis!");
         }
+        LTurn.setText("");
 
     }
 

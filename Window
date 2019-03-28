@@ -10,8 +10,14 @@ public class Window extends JFrame implements ActionListener {
     // Definiowanie przycisków
     JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,bRestart;
     JLabel LWin;
-    boolean Xturn = true;
 
+    // Definiowanie zmiennych
+    int EmptySpaces;
+    boolean Xturn = true;
+    boolean FirstTurn = true;
+    boolean SmbdWon = false;
+
+    // Definiowanie Array
     String[][] CorX = { {"","",""}, {"","",""}, {"","",""} };
     //    [ ] [ ] [ ]
     //    [ ] [ ] [ ]
@@ -50,7 +56,6 @@ public class Window extends JFrame implements ActionListener {
         b7.setBounds(0,400,200,200);
         b8.setBounds(200,400,200,200);
         b9.setBounds(400,400,200,200);
-        LWin.setBounds(getWidth()/2-210,50,500,200);
         bRestart.setBounds(getWidth()/2-100,250,200,100);
 
         // Czcionka w przyciskach
@@ -107,8 +112,20 @@ public class Window extends JFrame implements ActionListener {
         // Rozróżnienie przycisków
         KeyPressed(source);
 
-    }
+//        CHECK-CONSOLE
 
+        if (SmbdWon) {
+            for (int i = 0; i < 3; i++) {
+                for (int n = 0; n < 3; n++) {
+                    System.out.print(CorX[i][n]);
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println();
+        }
+
+    }
 
     private void KeyPressed(Object source) {
         String mark = "";
@@ -154,6 +171,7 @@ public class Window extends JFrame implements ActionListener {
             Restart();
         }
 
+        CheckIfDraw();
         CheckIfWin(mark);
 
     }
@@ -211,11 +229,19 @@ public class Window extends JFrame implements ActionListener {
         b9.setVisible(false);
         LWin.setVisible(true);
         bRestart.setVisible(true);
-        LWin.setText("Wygrywa gracz "+player);
+        SmbdWon = true;
+        if (!player.equals("")) {
+            LWin.setText("Wygrywa gracz " + player+"!");
+            LWin.setBounds(getWidth()/2-210,50,500,200);
+        }
+        else {
+            LWin.setText("Remis!");
+            LWin.setBounds(getWidth()/2-100,50,200,200);
+        }
 
     }
 
-    public void Restart() {
+    private void Restart() {
 
         // Czyszczenie zmiennych, oraz ukrywanie/pokazywanie GUI
         for(int n=0;n<3;n++) {
@@ -247,7 +273,25 @@ public class Window extends JFrame implements ActionListener {
         b9.setVisible(true);
         LWin.setVisible(false);
         bRestart.setVisible(false);
+        FirstTurn = true;
+        SmbdWon = false;
 
+    }
+
+    private void CheckIfDraw() {
+
+        EmptySpaces = 0;
+        for(int n=0;n<3;n++) {
+            for(int i=0;i<3;i++) {
+                if (!CorX[n][i].equals("")) {
+                    EmptySpaces++;
+                }
+            }
+        }
+        if (!FirstTurn && EmptySpaces == 9) {
+            Wins("");
+        }
+        FirstTurn = false;
     }
 
 }

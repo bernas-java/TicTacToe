@@ -133,49 +133,52 @@ public class Window extends JFrame implements ActionListener {
         String mark = "";
 
         // Rozróżnienie przycisków
-        if (source == b1) {
-            mark = InsertCol(0,0);
-            b1.setText(mark);
-        }
-        if (source == b2) {
-            mark = InsertCol(0,1);
-            b2.setText(mark);
-        }
-        if (source == b3) {
-            mark = InsertCol(0,2);
-            b3.setText(mark);
-        }
-        if (source == b4) {
-            mark = InsertCol(1,0);
-            b4.setText(mark);
-        }
-        if (source == b5) {
-            mark = InsertCol(1,1);
-            b5.setText(mark);
-        }
-        if (source == b6) {
-            mark = InsertCol(1,2);
-            b6.setText(mark);
-        }
-        if (source == b7) {
-            mark = InsertCol(2,0);
-            b7.setText(mark);
-        }
-        if (source == b8) {
-            mark = InsertCol(2,1);
-            b8.setText(mark);
-        }
-        if (source == b9) {
-            mark = InsertCol(2,2);
-            b9.setText(mark);
+        if (!SmbdWon) {
+            if (source == b1) {
+                mark = InsertCol(0, 0);
+                b1.setText(mark);
+            }
+            if (source == b2) {
+                mark = InsertCol(0, 1);
+                b2.setText(mark);
+            }
+            if (source == b3) {
+                mark = InsertCol(0, 2);
+                b3.setText(mark);
+            }
+            if (source == b4) {
+                mark = InsertCol(1, 0);
+                b4.setText(mark);
+            }
+            if (source == b5) {
+                mark = InsertCol(1, 1);
+                b5.setText(mark);
+            }
+            if (source == b6) {
+                mark = InsertCol(1, 2);
+                b6.setText(mark);
+            }
+            if (source == b7) {
+                mark = InsertCol(2, 0);
+                b7.setText(mark);
+            }
+            if (source == b8) {
+                mark = InsertCol(2, 1);
+                b8.setText(mark);
+            }
+            if (source == b9) {
+                mark = InsertCol(2, 2);
+                b9.setText(mark);
+            }
         }
         if (source == bRestart) {
             Restart();
         }
 
-        CheckIfDraw();
-        CheckIfWin(mark);
-
+        if (!SmbdWon) {
+            CheckIfDraw();
+            CheckIfWin(mark);
+        }
     }
 
     private String InsertCol(int tr, int td) {
@@ -185,12 +188,14 @@ public class Window extends JFrame implements ActionListener {
                 mark = "X";
                 CorX[tr][td] = mark;
                 Xturn = false;
-                LTurn.setText("Gracz Y");
-            } else {
+                LTurn.setText("Gracz O");
+            }
+            else {
                 mark = "O";
                 CorX[tr][td] = mark;
                 Xturn = true;
                 LTurn.setText("Gracz X");
+
             }
         }
         else {
@@ -255,6 +260,7 @@ public class Window extends JFrame implements ActionListener {
         LWin.setText("");
         LTurn.setText("Gracz X");
 
+        Xturn = true;
         FirstTurn = true;
         SmbdWon = false;
 

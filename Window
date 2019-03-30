@@ -189,7 +189,7 @@ public class Window extends JFrame implements ActionListener {
             CheckIfWin(mark);
         }
         UpdateButtons();
-        if (BotOn) {
+        if (BotOn && !SmbdWon) {
             BotPlay();
         }
     }
@@ -298,17 +298,20 @@ public class Window extends JFrame implements ActionListener {
 
     private void BotPlay() {
 
+        String mark;
         Random random = new Random();
 
         int tr = random.nextInt(3);
         int td = random.nextInt(3);
         if (CorX[tr][td].equals("")) {
-            InsertCol(tr,td);
+            mark = InsertCol(tr,td);
+            CheckIfDraw();
+            CheckIfWin(mark);
+            UpdateButtons();
         }
         else {
             BotPlay();
         }
-        UpdateButtons();
 
     }
 

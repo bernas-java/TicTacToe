@@ -4,11 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Window extends JFrame implements ActionListener {
 
     // Definiowanie przycisków
-    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,bRestart;
+    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,bRestart,bBotOn;
     JLabel LWin,LTurn;
 
     // Definiowanie zmiennych
@@ -16,6 +17,7 @@ public class Window extends JFrame implements ActionListener {
     boolean Xturn = true;
     boolean FirstTurn = true;
     boolean SmbdWon = false;
+    boolean BotOn = false;
 
     // Definiowanie Array
     String[][] CorX = { {"","",""}, {"","",""}, {"","",""} };
@@ -44,6 +46,7 @@ public class Window extends JFrame implements ActionListener {
         b8 = new JButton("");
         b9 = new JButton("");
         bRestart = new JButton("Restart");
+        bBotOn = new JButton("Bot is Off");
         LWin = new JLabel("");
         LTurn = new JLabel("Gracz X");
 
@@ -58,8 +61,9 @@ public class Window extends JFrame implements ActionListener {
         b8.setBounds(200,400,200,200);
         b9.setBounds(400,400,200,200);
         bRestart.setBounds(400,600,199,48);
-        LWin.setBounds(0,600,400,50);
+        LWin.setBounds(200,600,400,50);
         LTurn.setBounds(255,597,200,50);
+        bBotOn.setBounds(0,600,200,50);
 
         // Czcionka w przyciskach
         b1.setFont(new Font("Verdana",Font.BOLD,100));
@@ -72,6 +76,7 @@ public class Window extends JFrame implements ActionListener {
         b8.setFont(new Font("Verdana",Font.BOLD,100));
         b9.setFont(new Font("Verdana",Font.BOLD,100));
         bRestart.setFont(new Font("Verdana",Font.BOLD,20));
+        bBotOn.setFont(new Font("Verdana",Font.BOLD,20));
         LWin.setFont(new Font("Verdana",Font.BOLD,19));
         LTurn.setFont(new Font("Verdana",Font.BOLD,19));
         LTurn.setForeground(Color.red);
@@ -88,6 +93,7 @@ public class Window extends JFrame implements ActionListener {
         b8.addActionListener(this);
         b9.addActionListener(this);
         bRestart.addActionListener(this);
+        bBotOn.addActionListener(this);
 
         // Dodanie przycisków do okna
         add(b1);
@@ -102,6 +108,7 @@ public class Window extends JFrame implements ActionListener {
         add(LWin);
         add(LTurn);
         add(bRestart);
+        add(bBotOn);
 
     }
 
@@ -113,6 +120,7 @@ public class Window extends JFrame implements ActionListener {
         Object source = e.getSource();
         // Rozróżnienie przycisków
         KeyPressed(source);
+
 
 //        CHECK-CONSOLE
 
@@ -136,48 +144,53 @@ public class Window extends JFrame implements ActionListener {
         if (!SmbdWon) {
             if (source == b1) {
                 mark = InsertCol(0, 0);
-                b1.setText(mark);
             }
             if (source == b2) {
                 mark = InsertCol(0, 1);
-                b2.setText(mark);
             }
             if (source == b3) {
                 mark = InsertCol(0, 2);
-                b3.setText(mark);
             }
             if (source == b4) {
                 mark = InsertCol(1, 0);
-                b4.setText(mark);
             }
             if (source == b5) {
                 mark = InsertCol(1, 1);
-                b5.setText(mark);
             }
             if (source == b6) {
                 mark = InsertCol(1, 2);
-                b6.setText(mark);
             }
             if (source == b7) {
                 mark = InsertCol(2, 0);
-                b7.setText(mark);
             }
             if (source == b8) {
                 mark = InsertCol(2, 1);
-                b8.setText(mark);
             }
             if (source == b9) {
                 mark = InsertCol(2, 2);
-                b9.setText(mark);
             }
         }
         if (source == bRestart) {
             Restart();
         }
+        if (source == bBotOn) {
+            if (BotOn) {
+                BotOn = false;
+                bBotOn.setText("Bot is Off");
+            }
+            else {
+                BotOn = true;
+                bBotOn.setText("Bot is On");
+            }
+        }
 
         if (!SmbdWon) {
             CheckIfDraw();
             CheckIfWin(mark);
+        }
+        UpdateButtons();
+        if (BotOn) {
+            BotPlay();
         }
     }
 
@@ -281,6 +294,36 @@ public class Window extends JFrame implements ActionListener {
             Wins("");
         }
         FirstTurn = false;
+    }
+
+    private void BotPlay() {
+
+        Random random = new Random();
+
+        int tr = random.nextInt(3);
+        int td = random.nextInt(3);
+        if (CorX[tr][td].equals("")) {
+            InsertCol(tr,td);
+        }
+        else {
+            BotPlay();
+        }
+        UpdateButtons();
+
+    }
+
+    private void UpdateButtons() {
+
+        b1.setText(CorX[0][0]);
+        b2.setText(CorX[0][1]);
+        b3.setText(CorX[0][2]);
+        b4.setText(CorX[1][0]);
+        b5.setText(CorX[1][1]);
+        b6.setText(CorX[1][2]);
+        b7.setText(CorX[2][0]);
+        b8.setText(CorX[2][1]);
+        b9.setText(CorX[2][2]);
+
     }
 
 }
